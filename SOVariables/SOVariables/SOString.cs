@@ -3,43 +3,46 @@ using System;
 
 namespace ScriptableObjectVariable
 {
-    [CreateAssetMenu(fileName = "soBool", menuName = "soVariables/soBool", order = 1)]
-    public class SOBool : ScriptableVariable, ISerializationCallbackReceiver
-    {
-        [NonSerialized]
-        public bool value;
 
-        //Can the value be reset in game
-        //public bool resettable;
+    [CreateAssetMenu(fileName = "soString", menuName = "soVariables/soString", order = 1)]
+    public class SOString : ScriptableVariable, ISerializationCallbackReceiver
+    {
+        //Float value
+        [NonSerialized]
+        public string value;
 
         //When the game starts, the starting value we use (so we can reset if need be)
         [SerializeField]
-        private bool startingValue = false;
+        private string startingValue = null;
 
         /// <summary>
-        /// Set sBool value
+        /// Set sString value
         /// </summary>
         /// <param name="_value"></param>
-        public void SetValue(bool _value)
+        public void SetValue(string _value)
+        {
+            value = _value;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void SetValueWithoutNotify(string _value)
         {
             value = _value;
         }
 
         /// <summary>
-        /// Set value to another sBool value
+        /// Set value to another sString value
         /// </summary>
         /// <param name="_value"></param>
-        public void SetValue(SOBool _value)
+        public void SetValue(SOString _value)
         {
             value = _value.value;
+            OnValueChanged?.Invoke();
         }
-
-        /// <summary>
-        /// Swap the bool value
-        /// </summary>
-        public void Toggle()
+        
+        public void SetValueWithoutNotify(SOString _value)
         {
-            value = !value;
+            value = _value.value;
         }
 
         /// <summary>
@@ -58,25 +61,31 @@ namespace ScriptableObjectVariable
         public override void ResetValue()
         {
             value = startingValue;
+            OnValueChanged?.Invoke();
         }
-
-        public static implicit operator bool(SOBool so) => so.value;
         
-        public static bool operator == (SOBool a, bool b)
+        public override void ResetValueWithoutNotify()
+        {
+            value = startingValue;
+        }
+        
+        public static implicit operator string(SOString so) => so.value;
+        
+        public static bool operator == (SOString a, string b)
         {
             if (a == null)
-                throw new Exception("SoBool null");
-            return a.value == b;
+                throw new Exception("SOString null");
+            return a.value.Equals(b);
         }
         
-        public static bool operator != (SOBool a, bool b)
+        public static bool operator != (SOString a, string b)
         {
             if (a == null)
-                throw new Exception("SoBool null");
-            return a.value != b;
+                throw new Exception("SOString null");
+            return !a.value.Equals(b);
         }
         
-        protected bool Equals(SOBool other)
+        protected bool Equals(SOString other)
         {
             return base.Equals(other) && value == other.value;
         }
@@ -85,7 +94,7 @@ namespace ScriptableObjectVariable
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == this.GetType() && Equals((SOBool) obj);
+            return obj.GetType() == this.GetType() && Equals((SOString) obj);
         }
 
         public override int GetHashCode()

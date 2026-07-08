@@ -1,4 +1,3 @@
-using ScriptableObjectEvent;
 using ScriptableObjectVariable;
 using UnityEngine;
 
@@ -7,19 +6,18 @@ namespace ScriptableObjectScripts
     public class SO_SetActiveByBoolOnEvent : MonoBehaviour
     {
         [SerializeField] SOBool boolSo;
-        [SerializeField] SOGameEvent gameEvent;
 
         [SerializeField] GameObject[] gameObjectsToMirrorBool;
         [SerializeField] GameObject[] gameObjectsToInverseBool;
 
         void OnEnable()
         {
-            gameEvent.RegisterListener(OnRaise);
+            boolSo.OnValueChanged += OnRaise;
         }
 
         void OnDisable()
         {
-            gameEvent.UnregisterListener(OnRaise);
+            boolSo.OnValueChanged -= OnRaise;
         }
 
         void OnRaise()

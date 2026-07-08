@@ -3,51 +3,66 @@ using System;
 
 namespace ScriptableObjectVariable
 {
-    [CreateAssetMenu(fileName = "soFloat", menuName = "soVariables/soFloat", order = 1)]
-    public class SOFloat : ScriptableVariable, ISerializationCallbackReceiver
+
+    [CreateAssetMenu(fileName = "soInt", menuName = "soVariables/soInt", order = 1)]
+    public class SOInt : ScriptableVariable, ISerializationCallbackReceiver
     {
         //Float value
         [NonSerialized]
-        public float value;
+        public int value;
 
         //When the game starts, the starting value we use (so we can reset if need be)
         [SerializeField]
-        private float startingValue = 0;
+        private int startingValue = 0;
 
         /// <summary>
-        /// Set sFloat value
+        /// Set sInt value
         /// </summary>
         /// <param name="_value"></param>
-        public void SetValue(float _value)
+        public void SetValue(int _value)
+        {
+            value = _value;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void SetValueWithoutNotify(int _value)
         {
             value = _value;
         }
 
         /// <summary>
-        /// Set value to another sBool value
+        /// Set value to another sInt value
         /// </summary>
         /// <param name="_value"></param>
-        public void SetValue(SOFloat _value)
+        public void SetValue(SOInt _value)
+        {
+            value = _value.value;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void SetValueWithoutNotify(SOInt _value)
         {
             value = _value.value;
         }
 
         /// <summary>
-        /// Add a float value to the value
+        /// Add a int value to the value
         /// </summary>
         /// <param name="_value"></param>
-        public void AddValue(float _value)
+        public void AddValue(int _value)
         {
             value += _value;
+            OnValueChanged?.Invoke();
         }
 
         /// <summary>
-        /// Add another sFloat value to the value
+        /// Add another sInt value to the value
         /// </summary>
         /// <param name="_value"></param>
-        public void AddValue(SOFloat _value)
+        public void AddValue(SOInt _value)
         {
             value += _value.value;
+            OnValueChanged?.Invoke();
         }
 
         /// <summary>
@@ -56,7 +71,6 @@ namespace ScriptableObjectVariable
         public void OnAfterDeserialize()
         {
             value = startingValue;
-
         }
 
         public void OnBeforeSerialize() { }
@@ -67,64 +81,70 @@ namespace ScriptableObjectVariable
         public override void ResetValue()
         {
             value = startingValue;
+            OnValueChanged?.Invoke();
         }
         
-        public static implicit operator float(SOFloat so) => so.value;
+        public override void ResetValueWithoutNotify()
+        {
+            value = startingValue;
+        }
         
-        public static bool operator ==(SOFloat a, float b)
+        public static implicit operator int(SOInt so) => so.value;
+        
+        public static bool operator ==(SOInt a, int b)
         {
             if (!a)
-                throw new Exception("SOFloat null");
+                throw new Exception("SOInt null");
 
             return Mathf.Abs(a.value - b) < Mathf.Epsilon;
         }
         
-        public static bool operator !=(SOFloat a, float b)
+        public static bool operator !=(SOInt a, int b)
         {
             if (!a)
-                throw new Exception("SOFloat null");
+                throw new Exception("SOInt null");
 
             return Mathf.Abs(a.value - b) > Mathf.Epsilon;
         }
         
-        public static bool operator > (SOFloat a, float b)
+        public static bool operator > (SOInt a, int b)
         {
             if (!a)
-                throw new Exception("SOFloat null");
+                throw new Exception("SOInt null");
             return a.value > b;
         }
 
-        public static bool operator < (SOFloat a, float b)
+        public static bool operator < (SOInt a, int b)
         {
             if (!a)
-                throw new Exception("SOFloat null");
+                throw new Exception("SOInt null");
             return a.value < b;
         }
         
-        public static bool operator >= (SOFloat a, float b)
+        public static bool operator >= (SOInt a, int b)
         {
             if (!a)
-                throw new Exception("SOFloat null");
+                throw new Exception("SOInt null");
             return a.value >= b;
         }
 
-        public static bool operator <= (SOFloat a, float b)
+        public static bool operator <= (SOInt a, int b)
         {
             if (!a)
-                throw new Exception("SOFloat null");
+                throw new Exception("SOInt null");
             return a.value <= b;
         }
         
-        protected bool Equals(SOFloat other)
+        protected bool Equals(SOInt other)
         {
-            return base.Equals(other) && value.Equals(other.value);
+            return base.Equals(other) && value == other.value;
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == this.GetType() && Equals((SOFloat) obj);
+            return obj.GetType() == this.GetType() && Equals((SOInt) obj);
         }
 
         public override int GetHashCode()

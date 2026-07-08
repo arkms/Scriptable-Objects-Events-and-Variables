@@ -3,44 +3,45 @@ using System;
 
 namespace ScriptableObjectVariable
 {
-    [CreateAssetMenu(fileName = "soVector2", menuName = "soVariables/soVector2", order = 1)]
-
-    public class SOVector2 : ScriptableVariable, ISerializationCallbackReceiver
+    [CreateAssetMenu(fileName = "soVector3", menuName = "soVariables/soVector3", order = 1)]
+    public class SOVector3 : ScriptableVariable, ISerializationCallbackReceiver
     {
         //Float value
         [NonSerialized]
-        public Vector2 value;
+        public Vector3 value;
 
         //Can the value be reset in game
         //public bool resettable;
 
         //When the game starts, the starting value we use (so we can reset if need be)
         [SerializeField]
-        private Vector2 startingValue = Vector2.zero;
+        private Vector3 startingValue = Vector3.zero;
 
         /// <summary>
         /// Set sVector3 value
         /// </summary>
         /// <param name="_value"></param>
-        public void SetValue(Vector2 _value)
+        public void SetValue(Vector3 _value)
         {
             value = _value;
+            OnValueChanged?.Invoke();
         }
 
         /// <summary>
         /// Set value to another sVector3 value
         /// </summary>
         /// <param name="_value"></param>
-        public void SetValue(SOVector2 _value)
+        public void SetValue(SOVector3 _value)
         {
             value = _value.value;
+            OnValueChanged?.Invoke();
         }
 
         /// <summary>
         /// Add a Vector3 value to the value
         /// </summary>
         /// <param name="_value"></param>
-        public void AddValue(Vector2 _value)
+        public void AddValue(Vector3 _value)
         {
             value += _value;
         }
@@ -49,7 +50,7 @@ namespace ScriptableObjectVariable
         /// Add another sVector3 value to the value
         /// </summary>
         /// <param name="_value"></param>
-        public void AddValue(SOVector2 _value)
+        public void AddValue(SOVector3 _value)
         {
             value += _value.value;
         }
@@ -70,27 +71,33 @@ namespace ScriptableObjectVariable
         public override void ResetValue()
         {
             value = startingValue;
+            OnValueChanged?.Invoke();
+        }
+
+        public override void ResetValueWithoutNotify()
+        {
+            value = startingValue;
         }
         
-        public static implicit operator Vector2(SOVector2 so) => so.value;
+        public static implicit operator Vector3(SOVector3 so) => so.value;
         
-        public static bool operator ==(SOVector2 a, Vector2 b)
+        public static bool operator ==(SOVector3 a, Vector3 b)
         {
             if (!a)
-                throw new Exception("SOVector2 null");
+                throw new Exception("SOVector3 null");
 
             return a.value == b;
         }
         
-        public static bool operator !=(SOVector2 a, Vector2 b)
+        public static bool operator !=(SOVector3 a, Vector3 b)
         {
             if (!a)
-                throw new Exception("SOVector2 null");
+                throw new Exception("SOVector3 null");
 
             return a.value != b;
         }
         
-        protected bool Equals(SOVector2 other)
+        protected bool Equals(SOVector3 other)
         {
             return base.Equals(other) && value.Equals(other.value);
         }
@@ -99,7 +106,8 @@ namespace ScriptableObjectVariable
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == this.GetType() && Equals((SOVector2) obj);
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((SOVector3) obj);
         }
 
         public override int GetHashCode()

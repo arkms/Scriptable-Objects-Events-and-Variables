@@ -1,1 +1,1 @@
-The MIT License (MIT) Copyright (c) 2023 Arkms
+The MIT License (MIT) Copyright (c) 2026 Arkms

@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 using ScriptableObjectVariable;
-using ScriptableObjectEvent;
 
 namespace ScriptableObjectScripts
 {
@@ -11,9 +9,6 @@ namespace ScriptableObjectScripts
     {
         [SerializeField] 
         SOFloat floatSO;
-
-        [SerializeField] 
-        SOGameEvent gameEvent;
 
         Image image;
 
@@ -24,12 +19,12 @@ namespace ScriptableObjectScripts
 
         void OnEnable()
         {
-            gameEvent.RegisterListener(OnRaise);
+            floatSO.OnValueChanged += OnRaise;
         }
 
         void OnDisable()
         {
-            gameEvent.UnregisterListener(OnRaise);
+            floatSO.OnValueChanged -= OnRaise;
         }
 
         void OnRaise()

@@ -52,7 +52,7 @@ bool oppositeValue = !isGameRunningSo;
 
 ```
 
-And if in a script you want to do an action when a variable has a change, you must create an event for it. You can check the scripts inside the 'Scripts' folder for examples how to use it.
+It also have event to subscribe for events
 
 ## Contributing
 
@@ -61,4 +61,4 @@ to discuss what you would like to change.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/) 2029 - ARKMs.
+[MIT](https://choosealicense.com/licenses/mit/) 2026 - ARKMs.

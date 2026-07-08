@@ -21,6 +21,12 @@ namespace ScriptableObjectVariable
         public void SetValue(GameObject _value)
         {
             value = _value;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void SetValueWithoutNotify(GameObject _value)
+        {
+            value = _value;
         }
 
         /// <summary>
@@ -28,6 +34,12 @@ namespace ScriptableObjectVariable
         /// </summary>
         /// <param name="_value"></param>
         public void SetValue(SOGameObject _value)
+        {
+            value = _value.value;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void SetValueWithoutNotify(SOGameObject _value)
         {
             value = _value.value;
         }
@@ -46,6 +58,12 @@ namespace ScriptableObjectVariable
         /// Reset the value to it's inital value if it's resettable
         /// </summary>
         public override void ResetValue()
+        {
+            value = startingValue;
+            OnValueChanged?.Invoke();
+        }
+        
+        public override void ResetValueWithoutNotify()
         {
             value = startingValue;
         }
