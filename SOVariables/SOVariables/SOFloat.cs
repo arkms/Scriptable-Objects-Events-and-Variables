@@ -89,7 +89,7 @@ namespace ScriptableObjectVariable
             OnValueChanged?.Invoke();
         }
         
-        public void AddValueMax(SOFloat _value, float _max)
+        public void AddValueClampMax(SOFloat _value, float _max)
         {
             value += _value.value;
             if(value > _max)
@@ -97,7 +97,7 @@ namespace ScriptableObjectVariable
             OnValueChanged?.Invoke();
         }
         
-        public void AddValueMin(SOFloat _value, float _min)
+        public void AddValueClampMin(SOFloat _value, float _min)
         {
             value += _value.value;
             if(value < _min)
