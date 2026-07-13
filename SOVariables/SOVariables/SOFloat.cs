@@ -48,6 +48,29 @@ namespace ScriptableObjectVariable
             value += _value;
             OnValueChanged?.Invoke();
         }
+        
+        public void AddValueClamp(float _value, float _min, float _max)
+        {
+            value += _value;
+            value = Mathf.Clamp(value, _min, _max);
+            OnValueChanged?.Invoke();
+        }
+        
+        public void AddValueClampMax(float _value, float _max)
+        {
+            value += _value;
+            if(value > _max)
+                value = _max;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void AddValueClampMin(float _value, float _min)
+        {
+            value += _value;
+            if(value < _min)
+                value = _min;
+            OnValueChanged?.Invoke();
+        }
 
         /// <summary>
         /// Add another sFloat value to the value
@@ -56,6 +79,29 @@ namespace ScriptableObjectVariable
         public void AddValue(SOFloat _value)
         {
             value += _value.value;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void AddValueClamp(SOFloat _value, float _min, float _max)
+        {
+            value += _value.value;
+            value = Mathf.Clamp(value, _min, _max);
+            OnValueChanged?.Invoke();
+        }
+        
+        public void AddValueMax(SOFloat _value, float _max)
+        {
+            value += _value.value;
+            if(value > _max)
+                value = _max;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void AddValueMin(SOFloat _value, float _min)
+        {
+            value += _value.value;
+            if(value < _min)
+                value = _min;
             OnValueChanged?.Invoke();
         }
 

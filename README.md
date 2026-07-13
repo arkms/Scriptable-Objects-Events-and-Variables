@@ -2,8 +2,6 @@
 
 Basic scripts for an architecture with scriptable objects for Unity. Based on video from [Unite Austin 2017](https://www.youtube.com/watch?v=raQ3iHhE_Kk) and using Zack Bloundele project as starting point.
 
-The 2 big differences in this version are that the variables do not have events directly and that they can be used as native variables.
-
 ## Installation
 
 Using the Unity package manager using add package from git URL.

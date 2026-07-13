@@ -54,6 +54,29 @@ namespace ScriptableObjectVariable
             value += _value;
             OnValueChanged?.Invoke();
         }
+        
+        public void AddValueClamp(int _value, int _min, int _max)
+        {
+            value += _value;
+            value = Mathf.Clamp(value, _min, _max);
+            OnValueChanged?.Invoke();
+        }
+
+        public void AddValueClampMax(int _value, int _max)
+        {
+            value += _value;
+            if(value > _max)
+                value = _max;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void AddValueClampMin(int _value, int _min)
+        {
+            value += _value;
+            if(value < _min)
+                value = _min;
+            OnValueChanged?.Invoke();
+        }
 
         /// <summary>
         /// Add another sInt value to the value
@@ -62,6 +85,29 @@ namespace ScriptableObjectVariable
         public void AddValue(SOInt _value)
         {
             value += _value.value;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void AddValueClamp(SOInt _value, int _min, int _max)
+        {
+            value += _value.value;
+            value = Mathf.Clamp(value, _min, _max);
+            OnValueChanged?.Invoke();
+        }
+        
+        public void AddValueClampMax(SOInt _value, int _max)
+        {
+            value += _value.value;
+            if(value > _max)
+                value = _max;
+            OnValueChanged?.Invoke();
+        }
+        
+        public void AddValueClampMin(SOInt _value, int _min)
+        {
+            value += _value.value;
+            if(value < _min)
+                value = _min;
             OnValueChanged?.Invoke();
         }
 
